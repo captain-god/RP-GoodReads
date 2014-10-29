@@ -23,7 +23,7 @@ if (CLIENT) then
 		local aSign = {}
 		aSign.name = name
 		aSign.text = signText
-		aSign.owner = owner
+		aSign.owner = owner 
 		
 		net.Start("nwrpsign")
 			net.WriteTable(aSign)
