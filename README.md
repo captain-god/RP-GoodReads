@@ -10,6 +10,4 @@ And thus this project was born.
 * other players can view information placed on signs
 
 ##Preview of current version
-http://youtu.be/Md9-Ifp5MC8
-
 [![View on youtube](http://img.youtube.com/vi/Md9-Ifp5MC8/0.jpg)](https://www.youtube.com/watch?v=Md9-Ifp5MC8)
