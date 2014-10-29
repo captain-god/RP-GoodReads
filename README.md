@@ -1,4 +1,8 @@
-RPSign
-======
+###Addon created by dougRiss for Garry's Mod
+=====
+#Good Reads
+Rp Good Reads' intended purpose was to include readables into an RP server (because darkRP's notes were just awful). The idea began as signs, then it shaped itself into signs and books, then just readables altogether. The inspiration came from darkRP's Check module, where the check is displayed on the physical prop. I thought, "oh fuck, imagine that, but on a sign or piece of paper like a menu."
 
-Small (tiny) Garry's Mod addon that adds signs to the game that users can write to and read from.
+And thus this project was born.
+
+##Current release - v0.1 (alpha build 1)
