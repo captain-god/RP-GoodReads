@@ -6,3 +6,5 @@ Rp Good Reads' intended purpose was to include readables into an RP server (beca
 And thus this project was born.
 
 ##Current release - v0.1 (alpha build 1)
+* users can add information to a sign and save it
+* other players can view information placed on signs
