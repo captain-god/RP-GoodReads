@@ -6,5 +6,4 @@ Rp Good Reads' intended purpose was to include readables into an RP server (beca
 ##Current Release:
 Alpha .1
 
-##Video preview of current version
-[![View on youtube](http://img.youtube.com/vi/Md9-Ifp5MC8/0.jpg)](https://www.youtube.com/watch?v=Md9-Ifp5MC8)
+[![View on youtube](http://img.youtube.com/vi/00CMMIShB_I/0.jpg)](https://www.youtube.com/watch?v=00CMMIShB_I)
