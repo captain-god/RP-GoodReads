@@ -4,7 +4,7 @@ ENT.Spawnable = true
 
 ENT.PrintName		= "Sign"
 ENT.Author			= "DougRiss"
-ENT.Contact			= "N/A"
+ENT.Contact			= "himself@dougriss.com"
 ENT.Purpose			= "Save info in a Sign for other players to read!"
 ENT.Instructions	= "Hit E to edit the sign"
 
@@ -13,3 +13,5 @@ function ENT:SetupDataTables() --I used these to initialize the ents with sign n
 	self:NetworkVar( "String", 1, "SignText" )
 	self:NetworkVar( "String", 3, "SignOwner")
 end 
+
+--[[hooks]]--
