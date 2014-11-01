@@ -28,13 +28,13 @@ end
 
 --[[sends the data from the user to the server to be added to the sign table]]--
 
-local function writeToSign(panel, signText, name, owner) 
+local function writeToBook(panel, bookText, name, owner) 
 	local aSign = {}
 	aSign.name = name
-	aSign.text = signText
+	aSign.text = bookText
 	aSign.owner = owner 
 	
-	net.Start("nwrpsign")
+	net.Start("nwrpbook")
 		net.WriteTable(aSign)
 	net.SendToServer()
 	
@@ -60,9 +60,9 @@ local mainPanel
 --DFrame spawn every tick for as long as the mouse is pressed.
 --]]
 
-local function editSignFrame(name, signText, owner, activator)
+local function editSignFrame(name, bookText, owner, activator)
 	if !mainPanel then
-		if owner == "" then -- if this sign has no owner...
+		if owner == "" then -- if this book has no owner...
 			owner = activator
 			mainPanel = vgui.Create("DFrame")
 			mainPanel:SetTitle("Select Action")
@@ -76,9 +76,9 @@ local function editSignFrame(name, signText, owner, activator)
 			local claimButton = vgui.Create("DButton", mainPanel)
 			claimButton:SetPos(4, 30)
 			claimButton:SetSize(167, 30)
-			claimButton:SetText("Claim Sign")
+			claimButton:SetText("Claim Book")
 			claimButton.DoClick = function ()
-				writeToSign(mainPanel, "", name, owner)
+				writeToBook(mainPanel, "", name, owner)
 				displayNotification("Claimed")
 				mainPanel = nil
 			end --end function()
@@ -91,7 +91,7 @@ local function editSignFrame(name, signText, owner, activator)
 				mainPanel:Remove()
 				mainPanel = nil
 			end --end function()
-		elseif owner == activator then -- if the sign is claimed, and the activator is owner...
+		elseif owner == activator then -- if the book is claimed, and the activator is owner...
 			local btnW = 80
 			local btnH = 45
 			local btnStartX = 315
@@ -99,7 +99,7 @@ local function editSignFrame(name, signText, owner, activator)
 			local border = 5
 			
 			mainPanel = vgui.Create("DFrame")
-			mainPanel:SetTitle("Sign Properties")
+			mainPanel:SetTitle("Book Properties")
 			mainPanel:SetDraggable(false)
 			mainPanel:SetSize(400, 400)
 			mainPanel:ShowCloseButton(false)
@@ -109,7 +109,7 @@ local function editSignFrame(name, signText, owner, activator)
 
 			local textBox = vgui.Create("DTextEntry", mainPanel)
 			textBox:SetMultiline(true)
-			textBox:SetValue(signText)
+			textBox:SetValue(bookText)
 			textBox:SetPos(5, 30)
 			textBox:SetSize(305, 365)
 			textBox:SetEditable(false)
@@ -135,7 +135,7 @@ local function editSignFrame(name, signText, owner, activator)
 					acceptButton:SetText("Cancel")
 					textBox:SetEditable(true)
 				else
-					writeToSign(mainPanel, textBox:GetValue(), name, owner)
+					writeToBook(mainPanel, textBox:GetValue(), name, owner)
 					displayNotification("Changes Saved")
 					mainPanel = nil
 				end --end if
@@ -160,7 +160,7 @@ local function editSignFrame(name, signText, owner, activator)
 				mainPanel = nil
 			end --end function()
 			
-		else -- the sign is claimed and activator is not owner...
+		else -- the book is claimed and activator is not owner...
 			mainPanel = vgui.Create("DFrame")
 			mainPanel:SetSize(400, 400)
 			mainPanel:SetTitle("Select Action")
@@ -172,7 +172,7 @@ local function editSignFrame(name, signText, owner, activator)
 
 			local textBox = vgui.Create("DTextEntry", mainPanel)
 			textBox:SetMultiline(true)
-			textBox:SetValue(signText)
+			textBox:SetValue(bookText)
 			textBox:SetPos(5, 30)
 			textBox:SetSize(305, 365)
 			textBox:SetEditable(false)
@@ -185,17 +185,17 @@ local function editSignFrame(name, signText, owner, activator)
 				mainPanel:Remove()
 				mainPanel = nil
 			end --end function()
-		end --end if pertaining to sign owner
+		end --end if pertaining to book owner
 	end -- end if (singleton)
 end	--end function editSignFrame
 
-net.Receive("nwrpsign", -- Not sure if this is the best way to do it, but this is the only way I know how to get the client and server to talk.
+net.Receive("nwrpbook", -- Not sure if this is the best way to do it, but this is the only way I know how to get the client and server to talk.
 function (len)
 	local theTable = net.ReadTable()
 		local name = theTable.name
-		local signText = theTable.text
+		local bookText = theTable.text
 		local owner = theTable.owner
 		local activator = theTable.activator:SteamID()
-		editSignFrame(name, signText, owner, activator)
+		editSignFrame(name, bookText, owner, activator)
 end)
 
