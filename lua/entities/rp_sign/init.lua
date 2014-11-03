@@ -13,10 +13,10 @@ local signs = {}
 net.Receive("nwrpsign", -- Not sure if this is the best way to do it, but this is all I knew about talking with the server.
 	function (len)
 		local theTable = net.ReadTable()
-		placeSignInTable(theTable.name, theTable, theTable.owner)
+		placeSignInTable(theTable.id, theTable)
 	end)
 
-function placeSignInTable(id, theTable, owner)
+function placeSignInTable(id, theTable)
 	signs[id] = theTable
 end
 --[[-----------------------------------
@@ -28,22 +28,24 @@ function ENT:Initialize()
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetSolid( SOLID_VPHYSICS )
-	self:SetSignName(self:GetCreationID()) --sets the sign's name to it's creationID
+	self:SetSignID(self:GetCreationID()) --sets the sign's name to it's creationID
 	self:SetSignText("")
 	self:SetSignOwner("")
+	self:SetSignName("")
 	local newSign = {} 
 	newSign.name = self:GetSignName()
 	newSign.text = self:GetSignText()
 	newSign.owner = self:GetSignOwner()
-	signs[self:GetSignName()] = newSign --store the newly created sign in the table, right?
+	newSign.id = self:GetSignID()
+	signs[self:GetSignID()] = newSign --store the newly created sign in the table, right?
 end
 
 function ENT:OnRemove()
-	signs[self:GetSignName()] = nil -- remove it when deleted (gotta free up dem bits n bytes)
+	signs[self:GetSignID()] = nil -- remove it when deleted (gotta free up dem bits n bytes)
 end
 
 function ENT:Use( act, call )
-	local me = self:GetSignName() -- on use, get the name of the entity being used
+	local me = self:GetSignID() -- on use, get the name of the entity being used
 	local theTable = signs[me]			-- store the table entry associated with whatever 'me' turns out to be
 	theTable.activator = act
 	if act.IsPlayer() then  	-- if the activating entity is the player...

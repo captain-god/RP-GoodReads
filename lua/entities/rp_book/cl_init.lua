@@ -4,6 +4,7 @@ function ENT:Draw()
 	self:DrawModel()       
 end
 
+--[[display a notification to the user]]--
 local function displayNotification(notification) -- to display when a change is successful
 	local theWidth = 150
 	successNotification = vgui.Create( "DNotify" )
@@ -26,25 +27,74 @@ local function readOnHoverText()
 	draw.DrawText( "Read...", "TargetID", ScrW() * 0.5, ScrH() * 0.25, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER )
 end
 
---[[sends the data from the user to the server to be added to the sign table]]--
-
-local function writeToBook(panel, bookText, name, owner) 
-	local aSign = {}
-	aSign.name = name
-	aSign.text = bookText
-	aSign.owner = owner 
+--[[sends the data from the user to the server to be added to the book table]]--
+local function writeToBook(panel, bookText, name, owner, id) 
+	local aBook = {}
+	aBook.id = id
+	aBook.name = name
+	aBook.text = bookText
+	aBook.owner = owner 
 	
 	net.Start("nwrpbook")
-		net.WriteTable(aSign)
+		net.WriteTable(aBook)
 	net.SendToServer()
 	
 	panel:Remove()
 	panel = nil
 end
 
-local function saveToFile(text)
-	--[[do something]]--
+--[[write the book to a file for later use]]--
+local function saveToFile(text, name)
+	if(!file.Exists("goodreads/book/", "DATA")) then
+		file.CreateDir("goodreads/book/")
+	end
+	file.Write("goodreads/book/"..name..".txt", text)
+	print("Book saved to 'data/goodreads/book/"..name..".txt'")
 end
+
+--[[read from a file to retrieve book data]]--
+local function readFromFile(name)
+	print("Book loaded from 'data/goodreads/book/"..name)
+	return file.Read("goodreads/book/"..name ,"DATA")
+end
+
+--[[this is the dialog that apppears when a user asks to open a file]]--
+local function openFileDialog(owner, id)
+	filePanel = vgui.Create("DFrame")
+	filePanel:SetTitle("Select Action")
+	filePanel:SetSize(175, 200)
+	filePanel:SetDraggable(false)
+	filePanel:ShowCloseButton(true)
+	filePanel:MakePopup()
+	filePanel:Center()
+	filePanel:ParentToHUD()	
+
+	local FileBrowser = vgui.Create( "DListView", filePanel )
+	FileBrowser:AddColumn( "Books" )
+	FileBrowser:SetPos(5, 30)
+	FileBrowser:SetSize(165, 125)
+	FileBrowser:SetMultiSelect(false)
+	local tbl = file.Find("goodreads/book/*", "DATA", dateasc)
+	local i = 1
+	for k in pairs(tbl) do
+		FileBrowser:AddLine(tbl[i])
+		i = i + 1
+	end
+	
+	local closeButton = vgui.Create("DButton", filePanel)
+	closeButton:SetPos(5, 160)
+	closeButton:SetSize(165, 35)
+	closeButton:SetText("Load File")
+	closeButton.DoClick = function ()
+		if (FileBrowser:GetSelectedLine()) then
+				name = tbl[FileBrowser:GetSelectedLine()]
+				text = readFromFile(name)
+				name = string.sub(name,1,(string.len(name) - 4))
+				writeToBook(filePanel, text, name, owner, id) 
+		else
+		end-- end if-else
+	end-- end inner anonymous function
+end -- end function
 	
 local mainPanel
 
@@ -60,7 +110,7 @@ local mainPanel
 --DFrame spawn every tick for as long as the mouse is pressed.
 --]]
 
-local function editSignFrame(name, bookText, owner, activator)
+local function editBookFrame(name, bookText, owner, activator, id)
 	if !mainPanel then
 		if owner == "" then -- if this book has no owner...
 			owner = activator
@@ -78,7 +128,7 @@ local function editSignFrame(name, bookText, owner, activator)
 			claimButton:SetSize(167, 30)
 			claimButton:SetText("Claim Book")
 			claimButton.DoClick = function ()
-				writeToBook(mainPanel, "", name, owner)
+				writeToBook(mainPanel, "", name, owner, id)
 				displayNotification("Claimed")
 				mainPanel = nil
 			end --end function()
@@ -107,11 +157,18 @@ local function editSignFrame(name, bookText, owner, activator)
 			mainPanel:Center()
 			mainPanel:ParentToHUD()		
 
+			local nameBox = vgui.Create("DTextEntry", mainPanel)
+			nameBox:SetMultiline(true)
+			nameBox:SetValue(name)
+			nameBox:SetPos(5, 30)
+			nameBox:SetSize(305, 20)
+			nameBox:SetEditable(false)
+			
 			local textBox = vgui.Create("DTextEntry", mainPanel)
 			textBox:SetMultiline(true)
 			textBox:SetValue(bookText)
-			textBox:SetPos(5, 30)
-			textBox:SetSize(305, 365)
+			textBox:SetPos(5, 55)
+			textBox:SetSize(305, 340)
 			textBox:SetEditable(false)
 			
 			local acceptButton = vgui.Create("DButton", mainPanel)
@@ -134,8 +191,9 @@ local function editSignFrame(name, bookText, owner, activator)
 					editButton:SetPos(btnStartX, btnStartY)
 					acceptButton:SetText("Cancel")
 					textBox:SetEditable(true)
+					nameBox:SetEditable(true)
 				else
-					writeToBook(mainPanel, textBox:GetValue(), name, owner)
+					writeToBook(mainPanel, textBox:GetValue(), nameBox:GetValue(), owner, id)
 					displayNotification("Changes Saved")
 					mainPanel = nil
 				end --end if
@@ -146,6 +204,7 @@ local function editSignFrame(name, bookText, owner, activator)
 			openButton:SetSize(btnW, 45)
 			openButton:SetText("Open")
 			openButton.DoClick = function ()
+				openFileDialog(owner, id)
 				mainPanel:Remove()
 				mainPanel = nil
 			end --end function()
@@ -155,7 +214,7 @@ local function editSignFrame(name, bookText, owner, activator)
 			saveButton:SetSize(btnW, 45)
 			saveButton:SetText("Save")
 			saveButton.DoClick = function ()
-				saveToFile(mainPanel, textBox:GetValue(), name, owner)
+				saveToFile(textBox:GetValue(), name)
 				mainPanel:Remove()
 				mainPanel = nil
 			end --end function()
@@ -170,16 +229,23 @@ local function editSignFrame(name, bookText, owner, activator)
 			mainPanel:Center()
 			mainPanel:ParentToHUD()		
 
+			local nameBox = vgui.Create("DTextEntry", mainPanel)
+			nameBox:SetMultiline(true)
+			nameBox:SetValue(name)
+			nameBox:SetPos(5, 30)
+			nameBox:SetSize(305, 20)
+			nameBox:SetEditable(false)
+			
 			local textBox = vgui.Create("DTextEntry", mainPanel)
 			textBox:SetMultiline(true)
 			textBox:SetValue(bookText)
-			textBox:SetPos(5, 30)
-			textBox:SetSize(305, 365)
+			textBox:SetPos(5, 55)
+			textBox:SetSize(305, 340)
 			textBox:SetEditable(false)
 			
 			local acceptButton = vgui.Create("DButton", mainPanel)
-			acceptButton:SetPos(btnStartX, 350)
-			acceptButton:SetSize(btnW, 45)
+			acceptButton:SetPos(315, 350)
+			acceptButton:SetSize(80, 45)
 			acceptButton:SetText("Close")
 			acceptButton.DoClick = function ()
 				mainPanel:Remove()
@@ -187,15 +253,16 @@ local function editSignFrame(name, bookText, owner, activator)
 			end --end function()
 		end --end if pertaining to book owner
 	end -- end if (singleton)
-end	--end function editSignFrame
+end	--end function editBookFrame
 
 net.Receive("nwrpbook", -- Not sure if this is the best way to do it, but this is the only way I know how to get the client and server to talk.
 function (len)
 	local theTable = net.ReadTable()
+		local id = theTable.id
 		local name = theTable.name
 		local bookText = theTable.text
 		local owner = theTable.owner
 		local activator = theTable.activator:SteamID()
-		editSignFrame(name, bookText, owner, activator)
+		editBookFrame(name, bookText, owner, activator, id)
 end)
 

@@ -4,6 +4,7 @@ function ENT:Draw()
 	self:DrawModel()       
 end
 
+--[[display a notification to the user]]--
 local function displayNotification(notification) -- to display when a change is successful
 	local theWidth = 150
 	successNotification = vgui.Create( "DNotify" )
@@ -27,9 +28,9 @@ local function readOnHoverText()
 end
 
 --[[sends the data from the user to the server to be added to the sign table]]--
-
-local function writeToSign(panel, signText, name, owner) 
+local function writeToSign(panel, signText, name, owner, id) 
 	local aSign = {}
+	aSign.id = id
 	aSign.name = name
 	aSign.text = signText
 	aSign.owner = owner 
@@ -42,9 +43,58 @@ local function writeToSign(panel, signText, name, owner)
 	panel = nil
 end
 
-local function saveToFile(text)
-	--[[do something]]--
+--[[write the sign to a file for later use]]--
+local function saveToFile(text, name)
+	if(!file.Exists("goodreads/sign/", "DATA")) then
+		file.CreateDir("goodreads/sign/")
+	end
+	file.Write("goodreads/sign/"..name..".txt", text)
+	print("Sign saved to 'data/goodreads/sign/"..name..".txt'")
 end
+
+--[[read from a file to retrieve sign data]]--
+local function readFromFile(name)
+	print("Sign loaded from 'data/goodreads/sign/"..name)
+	return file.Read("goodreads/sign/"..name ,"DATA")
+end
+
+--[[this is the dialog that apppears when a user asks to open a file]]--
+local function openFileDialog(owner, id)
+	filePanel = vgui.Create("DFrame")
+	filePanel:SetTitle("Select Action")
+	filePanel:SetSize(175, 200)
+	filePanel:SetDraggable(false)
+	filePanel:ShowCloseButton(true)
+	filePanel:MakePopup()
+	filePanel:Center()
+	filePanel:ParentToHUD()	
+
+	local FileBrowser = vgui.Create( "DListView", filePanel )
+	FileBrowser:AddColumn( "Signs" )
+	FileBrowser:SetPos(5, 30)
+	FileBrowser:SetSize(165, 125)
+	FileBrowser:SetMultiSelect(false)
+	local tbl = file.Find("goodreads/sign/*", "DATA", dateasc)
+	local i = 1
+	for k in pairs(tbl) do
+		FileBrowser:AddLine(tbl[i])
+		i = i + 1
+	end
+	
+	local closeButton = vgui.Create("DButton", filePanel)
+	closeButton:SetPos(5, 160)
+	closeButton:SetSize(165, 35)
+	closeButton:SetText("Load File")
+	closeButton.DoClick = function ()
+		if (FileBrowser:GetSelectedLine()) then
+				name = tbl[FileBrowser:GetSelectedLine()]
+				text = readFromFile(name)
+				name = string.sub(name,1,(string.len(name) - 4))
+				writeToSign(filePanel, text, name, owner, id) 
+		else
+		end-- end if-else
+	end-- end inner anonymous function
+end -- end function
 	
 local mainPanel
 
@@ -57,10 +107,10 @@ local mainPanel
 --The design pattern used here is a pseudo-singleton, meaning it emulates the idea of a
 --singleton, but is done much differently. This may be removed later on, but presently, it
 --is the only fix to the bug that occurs when a user uses the entity that causes the
---DFrame spawn every tick for as long as the mouse is pressed.
+--DFrame spawn every tick for as long as the use key is pressed.
 --]]
 
-local function editSignFrame(name, signText, owner, activator)
+local function editSignFrame(name, signText, owner, activator, id)
 	if !mainPanel then
 		if owner == "" then -- if this sign has no owner...
 			owner = activator
@@ -78,7 +128,7 @@ local function editSignFrame(name, signText, owner, activator)
 			claimButton:SetSize(167, 30)
 			claimButton:SetText("Claim Sign")
 			claimButton.DoClick = function ()
-				writeToSign(mainPanel, "", name, owner)
+				writeToSign(mainPanel, "", name, owner, id)
 				displayNotification("Claimed")
 				mainPanel = nil
 			end --end function()
@@ -107,11 +157,18 @@ local function editSignFrame(name, signText, owner, activator)
 			mainPanel:Center()
 			mainPanel:ParentToHUD()		
 
+			local nameBox = vgui.Create("DTextEntry", mainPanel)
+			nameBox:SetMultiline(true)
+			nameBox:SetValue(name)
+			nameBox:SetPos(5, 30)
+			nameBox:SetSize(305, 20)
+			nameBox:SetEditable(false)
+			
 			local textBox = vgui.Create("DTextEntry", mainPanel)
 			textBox:SetMultiline(true)
 			textBox:SetValue(signText)
-			textBox:SetPos(5, 30)
-			textBox:SetSize(305, 365)
+			textBox:SetPos(5, 55)
+			textBox:SetSize(305, 340)
 			textBox:SetEditable(false)
 			
 			local acceptButton = vgui.Create("DButton", mainPanel)
@@ -134,8 +191,9 @@ local function editSignFrame(name, signText, owner, activator)
 					editButton:SetPos(btnStartX, btnStartY)
 					acceptButton:SetText("Cancel")
 					textBox:SetEditable(true)
+					nameBox:SetEditable(true)
 				else
-					writeToSign(mainPanel, textBox:GetValue(), name, owner)
+					writeToSign(mainPanel, textBox:GetValue(), nameBox:GetValue(), owner, id)
 					displayNotification("Changes Saved")
 					mainPanel = nil
 				end --end if
@@ -146,6 +204,7 @@ local function editSignFrame(name, signText, owner, activator)
 			openButton:SetSize(btnW, 45)
 			openButton:SetText("Open")
 			openButton.DoClick = function ()
+				openFileDialog(owner, id)
 				mainPanel:Remove()
 				mainPanel = nil
 			end --end function()
@@ -155,7 +214,7 @@ local function editSignFrame(name, signText, owner, activator)
 			saveButton:SetSize(btnW, 45)
 			saveButton:SetText("Save")
 			saveButton.DoClick = function ()
-				saveToFile(mainPanel, textBox:GetValue(), name, owner)
+				saveToFile(textBox:GetValue(), name)
 				mainPanel:Remove()
 				mainPanel = nil
 			end --end function()
@@ -170,16 +229,23 @@ local function editSignFrame(name, signText, owner, activator)
 			mainPanel:Center()
 			mainPanel:ParentToHUD()		
 
+			local nameBox = vgui.Create("DTextEntry", mainPanel)
+			nameBox:SetMultiline(true)
+			nameBox:SetValue(name)
+			nameBox:SetPos(5, 30)
+			nameBox:SetSize(305, 20)
+			nameBox:SetEditable(false)
+			
 			local textBox = vgui.Create("DTextEntry", mainPanel)
 			textBox:SetMultiline(true)
 			textBox:SetValue(signText)
-			textBox:SetPos(5, 30)
-			textBox:SetSize(305, 365)
+			textBox:SetPos(5, 55)
+			textBox:SetSize(305, 340)
 			textBox:SetEditable(false)
 			
 			local acceptButton = vgui.Create("DButton", mainPanel)
-			acceptButton:SetPos(btnStartX, 350)
-			acceptButton:SetSize(btnW, 45)
+			acceptButton:SetPos(315, 350)
+			acceptButton:SetSize(80, 45)
 			acceptButton:SetText("Close")
 			acceptButton.DoClick = function ()
 				mainPanel:Remove()
@@ -192,10 +258,11 @@ end	--end function editSignFrame
 net.Receive("nwrpsign", -- Not sure if this is the best way to do it, but this is the only way I know how to get the client and server to talk.
 function (len)
 	local theTable = net.ReadTable()
+		local id = theTable.id
 		local name = theTable.name
 		local signText = theTable.text
 		local owner = theTable.owner
 		local activator = theTable.activator:SteamID()
-		editSignFrame(name, signText, owner, activator)
+		editSignFrame(name, signText, owner, activator, id)
 end)
 

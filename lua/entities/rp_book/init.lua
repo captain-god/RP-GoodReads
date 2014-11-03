@@ -5,7 +5,7 @@ include("shared.lua")
 util.AddNetworkString("nwrpbook") -- communicate between client and server about the books
 
 --[[-----------------------------------
-Here's the Signs' table and things
+Here's the Books' table and things
 touch it.
 --]]-----------------------------------
 local books = {}
@@ -13,10 +13,10 @@ local books = {}
 net.Receive("nwrpbook", -- Not sure if this is the best way to do it, but this is all I knew about talking with the server.
 	function (len)
 		local theTable = net.ReadTable()
-		placeBookInTable(theTable.name, theTable, theTable.owner)
+		placeBookInTable(theTable.id, theTable)
 	end)
 
-function placeBookInTable(id, theTable, owner)
+function placeBookInTable(id, theTable)
 	books[id] = theTable
 end
 --[[-----------------------------------
@@ -28,22 +28,24 @@ function ENT:Initialize()
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetSolid( SOLID_VPHYSICS )
-	self:SetBookName(self:GetCreationID()) --sets the book's name to it's creationID
+	self:SetBookID(self:GetCreationID()) --sets the book's name to it's creationID
 	self:SetBookText("")
 	self:SetBookOwner("")
+	self:SetBookName("")
 	local newBook = {} 
 	newBook.name = self:GetBookName()
 	newBook.text = self:GetBookText()
 	newBook.owner = self:GetBookOwner()
-	books[self:GetBookName()] = newBook --store the newly created book in the table, right?
+	newBook.id = self:GetBookID()
+	books[self:GetBookID()] = newBook --store the newly created book in the table, right?
 end
 
 function ENT:OnRemove()
-	books[self:GetBookName()] = nil -- remove it when deleted (gotta free up dem bits n bytes)
+	books[self:GetBookID()] = nil -- remove it when deleted (gotta free up dem bits n bytes)
 end
 
 function ENT:Use( act, call )
-	local me = self:GetBookName() -- on use, get the name of the entity being used
+	local me = self:GetBookID() -- on use, get the name of the entity being used
 	local theTable = books[me]			-- store the table entry associated with whatever 'me' turns out to be
 	theTable.activator = act
 	if act.IsPlayer() then  	-- if the activating entity is the player...
@@ -53,5 +55,6 @@ function ENT:Use( act, call )
 	end
 end
 
-function ENT:Think() 
+function ENT:Think()
+	--I am book I am think hurdur--
 end
