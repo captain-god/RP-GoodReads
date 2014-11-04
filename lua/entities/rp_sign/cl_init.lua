@@ -186,7 +186,7 @@ local function editSignFrame(name, signText, owner, activator, id)
 			editButton:SetText("Edit")
 			editButton.DoClick = function ()
 				if editButton:GetText() == "Edit" then
-					editButton:SetText("Save")
+					editButton:SetText("Accept")
 					editButton:SetSize(btnW, btnH)
 					editButton:SetPos(btnStartX, btnStartY)
 					acceptButton:SetText("Cancel")
