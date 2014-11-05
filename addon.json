@@ -1,11 +1,6 @@
 {
-	"title" : "Good Reads: signs, books and more",
+	"title" : "RP Good Reads: signs, books and more",
 	"type" : "servercontent",
 	"tags" : [ "roleplay" ],
-	"ignore" :
-	[
-	"*.psd",
-	"*.vcproj",
-	"*.svn*"
-	]
+	"ignore" : [ ]
 }
