@@ -4,7 +4,7 @@ Rp Good Reads' intended purpose was to include readables into an RP server. Dark
 > imagine writing a sign, then the text just shows up on the sign. that would be rad as fuck
 
 ##Current Release: Alpha 2  
-Youtube Demonstration:  
+Youtube Demonstration (click the image):  
 [![View on youtube](http://img.youtube.com/vi/hKfYrc4_SGU/0.jpg)](https://www.youtube.com/watch?v=hKfYrc4_SGU)  
 https://www.youtube.com/watch?v=hKfYrc4_SGU
 
