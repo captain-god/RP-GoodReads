@@ -264,6 +264,6 @@ function ENT:Draw() -- work on this.
 	ang:RotateAroundAxis(ang:Up(), 90) --determine which axis is up, rotate around it
 	
 	cam.Start3D2D((pos + ang:Up() * 0.6), ang, 0.15) -- I might have stolen this from DarkRP. Maybe.
-		draw.DrawText("Read\nme", "HudHintTextLarge", -20, -25, Color(255,255,255,255), 0)
+		draw.DrawText("Read\nme", "HudHintTextLarge", -20, -25, Color(255,255,255,255), 1)
 	cam.End3D2D()
 end
