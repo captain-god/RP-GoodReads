@@ -1,9 +1,5 @@
 include("shared.lua")
 
-function ENT:Draw()
-	self:DrawModel()       
-end
-
 --[[display a notification to the user]]--
 local function displayNotification(notification) -- to display when a change is successful
 	local theWidth = 150
@@ -20,11 +16,6 @@ local function displayNotification(notification) -- to display when a change is 
 	aLabel:SizeToContents()
 	
 	successNotification:AddItem(aLabel)
-end
-
- -- TODO: implement this function when entity is hovered over
-local function readOnHoverText()
-	draw.DrawText( "Read...", "TargetID", ScrW() * 0.5, ScrH() * 0.25, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER )
 end
 
 --[[sends the data from the user to the server to be added to the sign table]]--
@@ -58,7 +49,6 @@ local function readFromFile(name)
 	return file.Read("goodreads/sign/"..name ,"DATA")
 end
 
---[[this is the dialog that apppears when a user asks to open a file]]--
 local function openFileDialog(owner, id)
 	filePanel = vgui.Create("DFrame")
 	filePanel:SetTitle("Select Action")
@@ -255,7 +245,7 @@ local function editSignFrame(name, signText, owner, activator, id)
 	end -- end if (singleton)
 end	--end function editSignFrame
 
-net.Receive("nwrpsign", -- Not sure if this is the best way to do it, but this is the only way I know how to get the client and server to talk.
+net.Receive("nwrpsign", 
 function (len)
 	local theTable = net.ReadTable()
 		local id = theTable.id
@@ -266,3 +256,14 @@ function (len)
 		editSignFrame(name, signText, owner, activator, id)
 end)
 
+function ENT:Draw() -- work on this.
+	self:DrawModel()
+	local pos = self:GetPos()
+	local ang = self:GetAngles()
+	
+	ang:RotateAroundAxis(ang:Up(), 90) --determine which axis is up, rotate around it
+	
+	cam.Start3D2D((pos + ang:Up() * 0.6), ang, 0.15) -- I might have stolen this from DarkRP. Maybe.
+		draw.DrawText("Read\nme", "HudHintTextLarge", -20, -25, Color(255,255,255,255), 0)
+	cam.End3D2D()
+end

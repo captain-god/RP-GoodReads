@@ -1,7 +1,15 @@
 include("shared.lua")
 
-function ENT:Draw()
-	self:DrawModel()       
+function ENT:Draw() -- work on this.
+	self:DrawModel()
+	local pos = self:GetPos()
+	local ang = self:GetAngles()
+	
+	ang:RotateAroundAxis(ang:Right(), -90) --determine which axis is right, rotate around it
+	
+	cam.Start3D2D((pos + ang:Up() * 5.5), ang, 0.15) -- I might have stolen this from DarkRP. Maybe.
+		draw.DrawText("Read me", "HudHintTextLarge", -70, -7, Color(255,255,255,255), 0)
+	cam.End3D2D()
 end
 
 --[[display a notification to the user]]--
@@ -20,11 +28,6 @@ local function displayNotification(notification) -- to display when a change is 
 	aLabel:SizeToContents()
 	
 	successNotification:AddItem(aLabel)
-end
-
- -- TODO: implement this function when entity is hovered over
-local function readOnHoverText()
-	draw.DrawText( "Read...", "TargetID", ScrW() * 0.5, ScrH() * 0.25, Color( 255, 255, 255, 255 ), TEXT_ALIGN_CENTER )
 end
 
 --[[sends the data from the user to the server to be added to the book table]]--

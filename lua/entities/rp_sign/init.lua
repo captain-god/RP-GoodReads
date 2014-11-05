@@ -1,5 +1,6 @@
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("init.lua")
+AddCSLuaFile("cl_init.lua")
 include("shared.lua")
 
 util.AddNetworkString("nwrpsign") -- communicate between client and server about the signs
@@ -38,10 +39,6 @@ function ENT:Initialize()
 	newSign.owner = self:GetSignOwner()
 	newSign.id = self:GetSignID()
 	signs[self:GetSignID()] = newSign --store the newly created sign in the table, right?
-end
-
-function ENT:OnRemove()
-	signs[self:GetSignID()] = nil -- remove it when deleted (gotta free up dem bits n bytes)
 end
 
 function ENT:Use( act, call )

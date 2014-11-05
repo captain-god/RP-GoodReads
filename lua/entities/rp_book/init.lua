@@ -1,5 +1,6 @@
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("init.lua")
+AddCSLuaFile("cl_init.lua")
 include("shared.lua")
 
 util.AddNetworkString("nwrpbook") -- communicate between client and server about the books
@@ -38,10 +39,6 @@ function ENT:Initialize()
 	newBook.owner = self:GetBookOwner()
 	newBook.id = self:GetBookID()
 	books[self:GetBookID()] = newBook --store the newly created book in the table, right?
-end
-
-function ENT:OnRemove()
-	books[self:GetBookID()] = nil -- remove it when deleted (gotta free up dem bits n bytes)
 end
 
 function ENT:Use( act, call )
