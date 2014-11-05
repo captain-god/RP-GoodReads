@@ -1,1 +1,3 @@
---include all derma stuff here, reference it later.
+if (client) then
+  --do stuff
+end
