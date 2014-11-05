@@ -1,10 +1,10 @@
 #Good Reads
-Rp Good Reads' intended purpose was to include readables into an RP server (because darkRP's notes were just awful). The idea began as signs, then it shaped itself into signs and books, then just readables altogether. The inspiration came from darkRP's Check module, where the check is displayed on the physical prop. I thought, "oh fuck, imagine that, but on a sign or piece of paper like a menu."
+Rp Good Reads' intended purpose was to include readables into an RP server. DarkRP had a good idea with notes... but I hated them. The idea began as signs, then it shaped itself into signs and books, then just readables altogether. Then I said; 
 
-##Current Release: Alpha 2
+> imagine writing a sign, then the text just shows up on the sign. that would be rad as fuck
 
-Youtube Demonstration:
-
+##Current Release: Alpha 2  
+Youtube Demonstration:  
 [![View on youtube](http://img.youtube.com/vi/hKfYrc4_SGU/0.jpg)](https://www.youtube.com/watch?v=hKfYrc4_SGU)  
 https://www.youtube.com/watch?v=hKfYrc4_SGU
 
