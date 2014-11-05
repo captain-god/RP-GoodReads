@@ -1,7 +1,5 @@
 #Good Reads
-Rp Good Reads' intended purpose was to include readables into an RP server. DarkRP had a good idea with notes... but I hated them. The idea began as signs, then it shaped itself into signs and books, then just readables altogether. Then I said; 
-
-> imagine writing a sign, then the text just shows up on the sign. that would be rad as fuck
+Rp Good Reads' intended purpose was to include readables into an RP server. DarkRP had a good idea with notes... but I hated them. The idea began as signs, then it shaped itself into signs and books, then just readables altogether. Then I thought, "imagine writing a sign, then the text just shows up on the sign. that would be rad as fuck".
 
 ##Current Release: Alpha 2  
 Youtube Demonstration (click the image):  
