@@ -7,7 +7,8 @@ Rp Good Reads' intended purpose was to include readables into an RP server (beca
 
 Youtube Demonstration:
 
-[![View on youtube](http://img.youtube.com/vi/hKfYrc4_SGU/0.jpg)](https://www.youtube.com/watch?v=hKfYrc4_SGU)
+[![View on youtube](http://img.youtube.com/vi/hKfYrc4_SGU/0.jpg)](https://www.youtube.com/watch?v=hKfYrc4_SGU)  
+https://www.youtube.com/watch?v=hKfYrc4_SGU
 
 ##How to install from github
 1. download the file from [here](https://github.com/dougRiss/RP-GoodReads/archive/master.zip)
