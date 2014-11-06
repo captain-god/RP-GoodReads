@@ -1,5 +1,5 @@
 -----  
-BETA BRANCH:  
+
 Intent here is to clean up code and make it more readable. I want this to be open sourced, and that's gonna be difficult if it's totally illegible. Once the code is desireably clean, config is set up, and sticky notes are finished, it will go to release.
 -----
 
