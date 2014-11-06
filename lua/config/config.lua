@@ -18,4 +18,12 @@ ALLOW_SIGNS = true
 ALLOW_BOOKS = true
 --players can use sticky notes
 ALLOW_NOTES = true
---TODO: Finish
+--generate prefabricated books for new users (config/default_books.lua contains said books)
+GEN_STARTER_BOOKS = true
+--generate prefabricated signs for new users (config/default_signs.lua contains said signs)
+GEN_STARTER_SIGNS = true
+--gather usage statistics (for yourself, I wont see it ever); see config/usgstat.lua
+GAT_USER_DATA = true
+--gather errors and place them in a report (when, where and how something broke). Please email this to me.
+GAT_ERROR_REPORT = true
+--TODO: More
