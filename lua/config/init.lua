@@ -1,1 +1,2 @@
---group all the shit in this folder
+include("config.lua")
+include("default_content.lua")
