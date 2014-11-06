@@ -233,6 +233,16 @@ local function editSignFrame(name, signText, owner, activator, id)
 			textBox:SetSize(305, 340)
 			textBox:SetEditable(false)
 			
+			local saveButton = vgui.Create("DButton", mainPanel)
+			saveButton:SetPos(315, 30)
+			saveButton:SetSize(80, 45)
+			saveButton:SetText("Save")
+			saveButton.DoClick = function ()
+				saveToFile(textBox:GetValue(), name)
+				mainPanel:Remove()
+				mainPanel = nil
+			end --end function()
+			
 			local acceptButton = vgui.Create("DButton", mainPanel)
 			acceptButton:SetPos(315, 350)
 			acceptButton:SetSize(80, 45)
@@ -264,6 +274,6 @@ function ENT:Draw() -- work on this.
 	ang:RotateAroundAxis(ang:Up(), 90) --determine which axis is up, rotate around it
 	
 	cam.Start3D2D((pos + ang:Up() * 0.6), ang, 0.15) -- I might have stolen this from DarkRP. Maybe.
-		draw.DrawText("Read\nme", "HudHintTextLarge", -20, -25, Color(255,255,255,255), 1)
+		draw.DrawText("Read\nme", "HudHintTextLarge", 0, -25, Color(255,255,255,255), 1)
 	cam.End3D2D()
 end
