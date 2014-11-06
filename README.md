@@ -1,3 +1,8 @@
+-----
+BETA BRANCH:  
+Intent here is to clean up code and make it more readable. I want this to be open sourced, and that's gonna be difficult if it's totally illegible. Once the code is desireably clean, config is set up, and sticky notes are finished, it will go to release.
+-----
+
 #Good Reads
 Rp Good Reads' intended purpose was to include readables into an RP server. DarkRP had a good idea with notes... but I hated them. The idea began as signs, then it shaped itself into signs and books, then just readables altogether. Then I thought, "imagine writing a sign, then the text just shows up on the sign. that would be rad as fuck".
 
