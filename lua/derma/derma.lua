@@ -55,14 +55,7 @@ function makeNotification(x, y, posX, posY, text, life)
 	successNotification:SetPos(ScrW() * 0.5 - x * 0.5, ScrH() * 0.5)
 	successNotification:SetSize( x, y )
 	successNotification:SetLife(life)
+	successNotification:AddItem(makeLabel( successNotification, text, 1, "GModNotify"))
 	
-	makeLabel( successNotification, 
-	local aLabel = vgui.Create( "DLabel", successNotification)
-	aLabel:Dock( FILL )
-	aLabel:SetText( notification )
-	aLabel:SetFont( "GModNotify" )
-	aLabel:SetDark( true )
-	aLabel:SizeToContents()
-	
-	successNotification:AddItem(aLabel)
+	return successNotification
 end
