@@ -5,38 +5,31 @@ ADMIN_IGNORE = false
 
 --Maximum amount of signs a player can have at once.
 MAX_SIGNS = 5 
+MAX_BOOKS = 5
+MAX_NOTES = 5
 
---maximum number of characters allowed in a sign, 0 means no limit
+--maximum and minimum number of characters allowed in a sign, 0 means no limit
 MAX_SIGN_CHARACTERS = 255
+MAX_BOOK_CHARACTERS = 255
+MAX_NOTE_CHARACTERS = 60 --sticky notes are hard limited to <= 160 characters
+MIN_SIGN_CHARACTERS = 0
+MIN_BOOK_CHARACTERS = 0
+MIN_NOTE_CHARACTERS = 0
 
---maximum number of characters allowed in a book, 0 means no limit
-MAX_BOOK_CHARACTERS = 255 
+--allow players to save signs and books they do not own
+ALLOW_SAVE_ON_VIEW_SIGN = false
+ALLOW_SAVE_ON_VIEW_BOOK = false
 
---maximum number of chraracters allowed in a sticky-note; must be > 0 & < 255 (sticky notes are small)
-MAX_STICKY_CHARACTERS = 60 
-
---minimum number of characters allowed; must be > 0
-MIN_CHARACTERS = 0 
-
---players can use signs
+--allow what modules players can use
 ALLOW_SIGNS = true
-
---players can use books
 ALLOW_BOOKS = true
-
---players can use sticky notes
 ALLOW_NOTES = true
 
---generate prefabricated books for new users (config/default_content.lua contains said books)
+--generate prefabricated content for new users (config/default_content.lua configures said content)
 GEN_STARTER_BOOKS = true
-
---generate prefabricated signs for new users (config/default_content.lua contains said signs)
 GEN_STARTER_SIGNS = true
 
 --gather usage statistics (for yourself, I wont see it ever); see config/usgstat.lua
-GAT_USER_DATA = true
-
---gather errors and place them in a report (when, where and how something broke). Please email this to me.
-GAT_ERROR_REPORT = true
+GATHER_USER_DATA = true
 
 --TODO: More
