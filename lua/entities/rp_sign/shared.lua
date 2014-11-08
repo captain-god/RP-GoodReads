@@ -1,8 +1,15 @@
-ENT.Base = "base_gmodentity"
-ENT.Type = "anim"
-ENT.Spawnable = true
+--[[-----------------------------------
+AUTHOR: dougRiss
+DATE: 11/7/2014
+PURPOSE: Set up our entity details
+--]]-----------------------------------
+include("config/config.lua")
 
-ENT.PrintName		= "Sign"
+ENT.Base = "goodreads_base"
+ENT.Type = "anim"
+ENT.Spawnable = ALLOW_SIGNS
+
+ENT.PrintName		= "Small Sign"
 ENT.Author			= "DougRiss"
 ENT.Contact			= "himself@dougriss.com"
 ENT.Purpose			= "Save info in a Sign for other players to read!"

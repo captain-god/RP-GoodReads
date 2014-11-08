@@ -1,7 +1,7 @@
 --[[-----------------------------------
 AUTHOR: dougRiss
 DATE: 11/7/2014
-PURPOSE: Clientside for our book
+PURPOSE: Clientside for our sign
 --]]-----------------------------------
 include("shared.lua")
 include("derma/goodread_menu.lua")
@@ -23,21 +23,21 @@ Calls the appropriate build method when
 the entity is used and sends the client
 a network string.
 --]]-----------------------------------
-local function usebookFrame(name, text, owner, activator, id)
+local function useSignFrame(name, text, owner, activator, id, nwstring)
 
 	if !mainPanel then
 	
-		-- this book has no owner...
+		-- this sign has no owner...
 		if owner == "" then
-			buildClaimPanel(mainPanel, name, activator, id, NW_STRING_BOOK)
+			buildClaimPanel(mainPanel, name, activator, id, nwstring)
 			
-		-- the book is claimed and the activator is owner...
+		-- the sign is claimed and the activator is owner...
 		elseif owner == activator then 
-			buildOwnerPanel(mainPanel, name, owner, id, text, NW_STRING_BOOK)
+			buildOwnerPanel(mainPanel, name, owner, id, text, nwstring)
 			
-		-- the book is claimed and activator is not owner...
+		-- the sign is claimed and activator is not owner...
 		else
-			buildGuestPanel(mainPanel, name, owner, id, text, NW_STRING_BOOK)
+			buildGuestPanel(mainPanel, name, owner, id, text, nwstring)
 			
 		end
 	end
@@ -48,7 +48,7 @@ Receive grabs a network string when the
 server sends it (in this case, nwrpsign) 
 and performs a function on its contents.
 --]]-----------------------------------
-net.Receive(NW_STRING_BOOK, 
+net.Receive("nwgoodreads", 
 function (len)
 	local theTable = net.ReadTable()
 	local id = theTable.id
@@ -56,7 +56,7 @@ function (len)
 	local text = theTable.text
 	local owner = theTable.owner
 	local activator = theTable.activator:SteamID()
-	usebookFrame(name, text, owner, activator, id)
+	useSignFrame(name, text, owner, activator, id)
 end)
 
 --[[-----------------------------------
@@ -65,14 +65,6 @@ the entity is drawn; draws text onto the
 entity that says "Read me"
 --]]-----------------------------------
 
-function ENT:Draw() -- work on this.
-	self:DrawModel()
-	local pos = self:GetPos()
-	local ang = self:GetAngles()
-	
-	ang:RotateAroundAxis(ang:Right(), -90) --determine which axis is right, rotate around it
-	
-	cam.Start3D2D((pos + ang:Up() * 5.5), ang, 0.15) -- I might have stolen this from DarkRP. Maybe.
-		draw.DrawText("Read me", "HudHintTextLarge", -70, -7, Color(255,255,255,255), 0)
-	cam.End3D2D()
+function ENT:Draw()
+--To be overwritten by implementations
 end

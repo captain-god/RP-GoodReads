@@ -1,32 +1,42 @@
-include("config.lua") --include to check the GEN_STARTER_* stuff
+--[[-----------------------------------
+AUTHOR: dougRiss
+DATE: 11/7/2014
+PURPOSE: Generate content for players 
+who are new to the server - this is also
+where you configure what said content is
+--]]-----------------------------------
+include("config.lua")
 
 if(client) then
     if(GEN_STARTER_BOOKS) then
-        --if our books directory does not exist, create it. 
-        --(It is assumed that if the directory exists, the user has been to the server before.)
         if(!file.Exists("/goodreads/book/", "DATA") then 
             file.CreateDir("/goodreads/book/", "DATA")
             
-            --Default book template; copy and paste this a couple times and change stuff:
-            if(!file.Exists("/goodreads/book/default.txt", "DATA") then 
-                text = [[Book Title\n 
-                Your book's text goes here.]]
-                file.Write("/goodreads/book/default.txt", text) 
+			--[[Use the following template to generate custom content]]--
+			filename = "default"
+            if(!file.Exists("/goodreads/book/"..filename..".txt", "DATA") then 
+				book = {
+					title = "Book Title"
+					text = [[Book Contents]]
+					}
+                file.Write("goodreads/book/"..fileName..".txt", util.TableToKeyValues(book))
             end
             
         end
     end
+	
     if(GEN_STARTER_SIGNS) then
-        --if our sign directory does not exist, create it. 
-        --(It is assumed that if the directory exists, the user has been to the server before.)
         if(!file.Exists("/goodreads/sign/", "DATA") then 
             file.CreateDir("/goodreads/sign/", "DATA")
             
-            --Default sign template; copy and paste this a couple times and change stuff:
-            if(!file.Exists("/goodreads/sign/default.txt", "DATA") then 
-                text = [[Sign Title\n 
-                Your sign's text goes here.]]
-                file.Write("/goodreads/sign/default.txt", text) 
+			--[[Use the following template to generate custom content]]--
+			filename = "default"
+            if(!file.Exists("/goodreads/sign/"..filename..".txt", "DATA") then 
+				sign = {
+					title = "Sign Title"
+					text = [[Sign Contents]]
+					}
+                file.Write("goodreads/sign/"..fileName..".txt", util.TableToKeyValues(sign))
             end
             
         end
