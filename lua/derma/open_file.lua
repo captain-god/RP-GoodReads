@@ -37,7 +37,7 @@ function openFileDialog(owner, id, nwstring)
 		return
 	end
 	
-	if(DEBUGGING_MODE) then print("Opening file of type: "..gr_type)
+	if(DEBUGGING_MODE) then print("Opening file of type: "..gr_type) end
 	
 	filePanel = buildFrame("Select Action", true, 175, 200, true)
 
