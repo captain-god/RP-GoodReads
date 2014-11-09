@@ -1,5 +1,9 @@
-#Beta 1 Branch  
-This branch is the beta update. Once this is functional, I'll merge it to master. When will it be ready to merge? When the [Release](https://github.com/dougRiss/RP-GoodReads/milestones/Release!) milestone is met.
+#This is RP GoodReads.  
+I made this mod because I wanted to have books and signs in the game that people could read. The main influence came from darkRP's notes system, which I loved the idea of, but hated the execution. Then I got to thinking: what if we could have like signs with the text just printed onto them? I saw a couple of mods print text to props and entities, so I figured it wouldnt be that hard. I went right to work. 
+
+#Current Version:  
+Beta 1.1
+[![Beta 1.1 Release](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
 
 ##How to install from github
 1. download the file from [here](https://github.com/dougRiss/RP-GoodReads/archive/master.zip)
