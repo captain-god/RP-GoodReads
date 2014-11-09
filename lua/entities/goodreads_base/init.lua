@@ -1,7 +1,7 @@
 --[[-----------------------------------
 AUTHOR: dougRiss
 DATE: 11/7/2014
-PURPOSE: initializes our sign SENT
+PURPOSE: initializes our base sent
 --]]-----------------------------------
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("init.lua")
@@ -21,13 +21,13 @@ Open up a network string that will allow
 us to talk between the client and server
 about our signs.
 --]]-----------------------------------
-util.AddNetworkString(NW_STRING_SIGN)
+util.AddNetworkString("nwgoodreads")
 
 --[[-----------------------------------
 Receive the table from the clientside
 script and do stuff to it.
 --]]-----------------------------------
-net.Receive(NW_STRING_SIGN, -- Not sure if this is the best way to do it, but this is all I knew about talking with the server.
+net.Receive("nwgoodreads", -- Not sure if this is the best way to do it, but this is all I knew about talking with the server.
     function (len)
         local theTable = net.ReadTable()
         placeSignInTable(theTable.id, theTable)
@@ -75,7 +75,7 @@ function ENT:Use( act, call)
     local theTable = signs[me]          -- store the table entry associated with whatever 'me' turns out to be
     theTable.activator = act
     if act.IsPlayer() then      -- if the activating entity is the player...
-        net.Start(NW_STRING_SIGN)    -- start the network string
+        net.Start("nwgoodreads")    -- start the network string
             net.WriteTable(theTable)    -- write the table with our entity's information
         net.Send(act)           -- then send to the player who used it.
     end

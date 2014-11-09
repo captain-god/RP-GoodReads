@@ -5,15 +5,6 @@ PURPOSE: Clientside for our sign
 --]]-----------------------------------
 include("shared.lua")
 include("derma/goodread_menu.lua")
-include("config/config.lua")
-include("config/default_content.lua")
-
---[[-----------------------------------
-First and foremost:
-creates the folders used to house the
-stored sign and book data
---]]-----------------------------------
-generateSigns()
 
 --[[-----------------------------------
 if mainPanel is not initialized (or nil),
@@ -28,25 +19,38 @@ ensure only one instance lives at a time.
 local mainPanel
 
 --[[-----------------------------------
+creates the folders used to house the
+stored sign and book data
+--]]-----------------------------------
+local function createFolders()
+	if(!file.IsDir("/goodreads/book/", "DATA")) then 
+		file.CreateDir("/goodreads/book/", "DATA")
+	end
+	if(!file.IsDir("/goodreads/sign/", "DATA")) then 
+		file.CreateDir("/goodreads/sign/", "DATA")
+	end   
+end
+
+--[[-----------------------------------
 Calls the appropriate build method when
 the entity is used and sends the client
 a network string.
 --]]-----------------------------------
-local function useSignFrame(name, text, owner, activator, id)
+local function useSignFrame(name, text, owner, activator, id, nwstring)
 
 	if !mainPanel then
 	
 		-- this sign has no owner...
 		if owner == "" then
-			buildClaimPanel(mainPanel, name, activator, id, NW_STRING_SIGN)
+			buildClaimPanel(mainPanel, name, activator, id, nwstring)
 			
 		-- the sign is claimed and the activator is owner...
 		elseif owner == activator then 
-			buildOwnerPanel(mainPanel, name, owner, id, text, NW_STRING_SIGN)
+			buildOwnerPanel(mainPanel, name, owner, id, text, nwstring)
 			
 		-- the sign is claimed and activator is not owner...
 		else
-			buildGuestPanel(mainPanel, name, owner, id, text, NW_STRING_SIGN)
+			buildGuestPanel(mainPanel, name, owner, id, text, nwstring)
 			
 		end
 	end
@@ -57,7 +61,7 @@ Receive grabs a network string when the
 server sends it (in this case, nwrpsign) 
 and performs a function on its contents.
 --]]-----------------------------------
-net.Receive(NW_STRING_SIGN, 
+net.Receive("nwgoodreads", 
 function (len)
 	local theTable = net.ReadTable()
 	local id = theTable.id
@@ -75,13 +79,5 @@ entity that says "Read me"
 --]]-----------------------------------
 
 function ENT:Draw()
-	self:DrawModel()
-	local pos = self:GetPos()
-	local ang = self:GetAngles()
-	
-	ang:RotateAroundAxis(ang:Up(), 90) --determine which axis is up, rotate around it
-	
-	cam.Start3D2D((pos + ang:Up() * 0.6), ang, 0.15) -- I might have stolen this from DarkRP. Maybe.
-		draw.DrawText("Read\nme", "HudHintTextLarge", 0, -25, Color(255,255,255,255), 1)
-	cam.End3D2D()
+--To be overwritten by implementations
 end
