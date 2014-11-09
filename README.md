@@ -3,7 +3,7 @@ I made this mod because I wanted to have books and signs in the game that people
 
 #Current Version:  
 Beta 1.1
-[![Beta 1.1 Release](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+[![Beta 1.1 Release](http://img.youtube.com/vi/wnj8hJZpLSo/0.jpg)](https://www.youtube.com/watch?v=wnj8hJZpLSo)
 
 ##How to install from github
 1. download the file from [here](https://github.com/dougRiss/RP-GoodReads/archive/master.zip)
