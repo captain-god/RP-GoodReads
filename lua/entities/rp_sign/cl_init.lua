@@ -5,7 +5,15 @@ PURPOSE: Clientside for our sign
 --]]-----------------------------------
 include("shared.lua")
 include("derma/goodread_menu.lua")
-AddCSLuaFile("config/config.lua")
+include("config/config.lua")
+include("config/default_content.lua")
+
+--[[-----------------------------------
+First and foremost:
+creates the folders used to house the
+stored sign and book data
+--]]-----------------------------------
+generateSigns()
 
 --[[-----------------------------------
 if mainPanel is not initialized (or nil),

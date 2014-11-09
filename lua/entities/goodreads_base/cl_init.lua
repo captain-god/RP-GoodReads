@@ -19,6 +19,19 @@ ensure only one instance lives at a time.
 local mainPanel
 
 --[[-----------------------------------
+creates the folders used to house the
+stored sign and book data
+--]]-----------------------------------
+local function createFolders()
+	if(!file.IsDir("/goodreads/book/", "DATA")) then 
+		file.CreateDir("/goodreads/book/", "DATA")
+	end
+	if(!file.IsDir("/goodreads/sign/", "DATA")) then 
+		file.CreateDir("/goodreads/sign/", "DATA")
+	end   
+end
+
+--[[-----------------------------------
 Calls the appropriate build method when
 the entity is used and sends the client
 a network string.

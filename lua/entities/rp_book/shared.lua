@@ -21,5 +21,4 @@ function ENT:SetupDataTables() --I used these to initialize the ents with Book n
 	self:NetworkVar( "String", 2, "BookID" )
 	self:NetworkVar( "String", 3, "BookOwner")
 end 
-
 --[[hooks]]--

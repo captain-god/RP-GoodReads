@@ -22,4 +22,5 @@ function ENT:SetupDataTables() --I used these to initialize the ents with sign n
 	self:NetworkVar( "String", 3, "SignOwner")
 end 
 
+cleanup.Register( "GoodReads" ) 
 --[[hooks]]--

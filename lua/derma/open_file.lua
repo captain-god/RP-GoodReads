@@ -37,7 +37,7 @@ function openFileDialog(owner, id, nwstring)
 		return
 	end
 	
-	if(DEBUGGING_MODE) then print("Opening file of type: "..gr_type)
+	if(DEBUGGING_MODE) then print("Opening file of type: "..gr_type) end
 	
 	filePanel = buildFrame("Select Action", true, 175, 200, true)
 
@@ -54,7 +54,7 @@ function openFileDialog(owner, id, nwstring)
 	end
 	
 	local openFileButton = buildButton(filePanel, "Load File", 165, 35, 5, 160)
-	openFileButton.DoClick = function ()
+	openFileButton.DoClick = (function ()
 		if (fileListView:GetSelectedLine()) then
 			fileName = allFiles[fileListView:GetSelectedLine()]
 			aSign = readFromFile(fileName, owner, id, gr_type)
@@ -66,5 +66,5 @@ function openFileDialog(owner, id, nwstring)
 			filePanel:Remove()
 			filePanel = nil
 		end
-	end
+	end)
 end

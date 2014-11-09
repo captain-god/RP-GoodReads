@@ -22,18 +22,29 @@ end
 --[[-----------------------------------
 Writes a table to a file to be read later
 --]]-----------------------------------
-local function saveToFile(sign, fileName)
-	if(!file.Exists("goodreads/save/", "DATA")) then
-		file.CreateDir("goodreads/save/")
+local function saveToFile(sign, fileName, gr_type)
+	if(!file.Exists("goodreads/"..gr_type.."/", "DATA")) then
+		file.CreateDir("goodreads/"..gr_type.."/")
 	end
-	file.Write("goodreads/save/"..fileName..".txt", util.TableToKeyValues(sign))
-	if(DEBUGGING_MODE) then print("Sign saved to 'data/goodreads/save/"..fileName..".txt'") end
+	file.Write("goodreads/"..gr_type.."/"..fileName..".txt", util.TableToKeyValues(sign))
+	if(DEBUGGING_MODE) then print("Sign saved to 'data/goodreads/"..gr_type.."/"..fileName..".txt'") end
 end
 
 --[[-----------------------------------
 Derma frame that prompts user response
 --]]-----------------------------------
-function saveFileDialog(theText, theTitle)
+function saveFileDialog(theText, theTitle, nwstring)
+	local gr_type
+	
+	if(nwstring == NW_STRING_BOOK) then 
+		gr_type = "book"
+	elseif(nwstring == NW_STRING_SIGN) then 
+		gr_type = "sign"
+	else
+		print("Bad network string supplied")
+		return
+	end
+	
 	filePanel = buildFrame("Select Action", true, 175, 120, true)
 	
 	fileNameEntry = buildTextEntry(filePanel, "default", false, 165, 20, 5, 55)
@@ -43,7 +54,7 @@ function saveFileDialog(theText, theTitle)
 	saveButton = buildButton(filePanel, "Save File", 165, 35, 5, 80)
 	saveButton.DoClick = (function()
 		local t = {text = theText, name = theTitle, id = "", owner = ""}
-		saveToFile(t, stripNonAlphaNum(fileNameEntry:GetValue()))
+		saveToFile(t, stripNonAlphaNum(fileNameEntry:GetValue()), gr_type)
 		filePanel:Remove()
 		filePanel = nil
 	end)

@@ -21,11 +21,8 @@ ALLOW_NOTES = true
 GEN_STARTER_BOOKS = true
 GEN_STARTER_SIGNS = true
 
---gather usage statistics (for yourself, I wont see it ever); see config/usgstat.lua
-GATHER_USER_DATA = true
-
 --Turn on debugging, making almost every function print something so you can follow steps.
-DEBUGGING_MODE = false
+DEBUGGING_MODE = true
 
 --Maximum amount of signs a player can have at once.
 MAX_SIGNS = 5 

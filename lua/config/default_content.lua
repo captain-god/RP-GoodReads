@@ -7,38 +7,44 @@ where you configure what said content is
 --]]-----------------------------------
 include("config.lua")
 
-if(client) then
-    if(GEN_STARTER_BOOKS) then
-        if(!file.Exists("/goodreads/book/", "DATA") then 
-            file.CreateDir("/goodreads/book/", "DATA")
-            
-			--[[Use the following template to generate custom content]]--
-			filename = "default"
-            if(!file.Exists("/goodreads/book/"..filename..".txt", "DATA") then 
-				book = {
-					title = "Book Title"
-					text = [[Book Contents]]
-					}
-                file.Write("goodreads/book/"..fileName..".txt", util.TableToKeyValues(book))
-            end
-            
-        end
-    end
-	
-    if(GEN_STARTER_SIGNS) then
-        if(!file.Exists("/goodreads/sign/", "DATA") then 
-            file.CreateDir("/goodreads/sign/", "DATA")
-            
-			--[[Use the following template to generate custom content]]--
-			filename = "default"
-            if(!file.Exists("/goodreads/sign/"..filename..".txt", "DATA") then 
-				sign = {
-					title = "Sign Title"
-					text = [[Sign Contents]]
-					}
-                file.Write("goodreads/sign/"..fileName..".txt", util.TableToKeyValues(sign))
-            end
-            
-        end
-    end
+function generateBooks()
+	if(GEN_STARTER_BOOKS) then 
+		if(!file.IsDir("goodreads/book", "DATA")) then
+			file.CreateDir("goodreads/book")
+		end
+		
+		--[[Use the following template to generate custom content]]--
+		
+		filename = "default" --change this every time
+		if(!file.Exists("/goodreads/book/"..filename..".txt", "DATA")) then  --leave this alone
+			book = {
+				title = "Book Title", --make 100% sure there is a comma there.
+				text = "Book Contents" --you can use [[Book Contents]] to make multi-lined strings
+				}
+			file.Write("goodreads/book/"..filename..".txt", util.TableToKeyValues(book))
+			if(DEBUGGING_MODE) then print("Default content added: book/"..filename..".txt") end
+		end
+
+	end
+end
+
+function generateSigns()
+	if(GEN_STARTER_SIGNS) then
+		if(!file.IsDir("goodreads/book", "DATA") )then
+			file.CreateDir("goodreads/book")
+		end
+		
+		--[[Use the following template to generate custom content]]--
+		
+		filename = "default"
+		if(!file.Exists("/goodreads/sign/"..filename..".txt", "DATA")) then 
+			sign = {
+				title = "Sign Title",
+				text = "Sign Contents"
+				}
+			file.Write("goodreads/sign/"..filename..".txt", util.TableToKeyValues(sign))
+			if(DEBUGGING_MODE) then print("Default content added: sign/"..filename..".txt") end
+		end
+			
+	end
 end
