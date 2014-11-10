@@ -18,7 +18,7 @@ function generateBooks()
 		filename = "default" --change this every time
 		if(!file.Exists("/goodreads/book/"..filename..".txt", "DATA")) then  --leave this alone
 			book = {
-				title = "Book Title", --make 100% sure there is a comma there.
+				name = "Book Title", --make 100% sure there is a comma there.
 				text = "Book Contents" --you can use [[Book Contents]] to make multi-lined strings
 				}
 			file.Write("goodreads/book/"..filename..".txt", util.TableToKeyValues(book))
@@ -39,7 +39,7 @@ function generateSigns()
 		filename = "default"
 		if(!file.Exists("/goodreads/sign/"..filename..".txt", "DATA")) then 
 			sign = {
-				title = "Sign Title",
+				name = "Sign Title",
 				text = "Sign Contents"
 				}
 			file.Write("goodreads/sign/"..filename..".txt", util.TableToKeyValues(sign))

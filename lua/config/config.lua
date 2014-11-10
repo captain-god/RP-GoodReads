@@ -22,7 +22,7 @@ GEN_STARTER_BOOKS = true
 GEN_STARTER_SIGNS = true
 
 --Turn on debugging, making almost every function print something so you can follow steps.
-DEBUGGING_MODE = true
+DEBUGGING_MODE = false
 
 --Maximum amount of signs a player can have at once.
 MAX_SIGNS = 5 

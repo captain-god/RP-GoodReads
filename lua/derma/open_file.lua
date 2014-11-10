@@ -47,6 +47,7 @@ function openFileDialog(owner, id, nwstring)
 	fileListView:SetSize(165, 125)
 	fileListView:SetMultiSelect(false)
 	local allFiles = file.Find("goodreads/"..gr_type.."/*", "DATA", dateasc)
+	
 	local i = 1
 	for k in pairs(allFiles) do
 		fileListView:AddLine(allFiles[i])
